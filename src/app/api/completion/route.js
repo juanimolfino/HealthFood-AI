@@ -26,8 +26,8 @@ export async function POST(req) {
   const response = await openai.completions.create({
     model: "text-davinci-003",
     stream: true,
-    temperature: 0.9,
-    max_tokens: 2000,
+    temperature: 0.7,
+    max_tokens: 3000,
     prompt: generatePrompt(language, selectedOptions, height, weight),
   });
 
@@ -38,55 +38,21 @@ export async function POST(req) {
 function generatePrompt(language, selectedOptions, height, weight) {
   let prompt = `Generate 3 differents healthy food recipe ideas (breakfast, lunch and dinner) with the following strict characteristics: Height: ${height}cm \n Weight: ${weight}kg \n ${selectedOptions.map(
     (option) => ` ${option.name}: ${option.options}`
-  )}.
-  Return the answer in ${language} and must be in HTML format with css inline like the following example
+  )}, and Calories per day recommended for these characteristics using BMR multiply by the Harris-Benedict factor activity.
 
-    <h1 class="font-bold mt-3 mx-0 mb-1">💡 Dish name: </h1>
-    <h1 class="font-bold mt-2 mx-0 mb-1">🥗 Description: </h1>
-    <div><h1 class="font-bold mt-2 mx-0 mb-1">✅ Ingredients</h1><ul class="m-0"></ul></div> (show in a list with quantity and weight)
-    <h1 class="font-bold mt-2 mx-0 mb-1">📖 How to make it</h1> (show in a list with steps) 
-    🔥 Calories per dish
+  Return the answer in ${language} (titles and text) and must be in HTML format with css inline like the following example.
 
-    🍽️ Calories per day recommended for you (exemple use BMR multiply by the Harris-Benedict factor activity)`;
+    <div class="my-2"><h1 class="font-bold mt-3 mx-0 mb-1">💡 Dish name: </h1></div>
+    <div class="my-2"><h1 class="font-bold mt-2 mx-0 mb-1">🥗 Description: (short description)</h1></div>
+    <div class="my-2"><h1 class="font-bold mt-2 mx-0 mb-1">✅ Ingredients:</h1><ul class="m-0"></ul></div> (show in a list with quantity and weight)
+    <div class="my-2"><h1 class="font-bold mt-2 mx-0 mb-1">📖 How to make it: (in list format)</h1></div>
+    <div class="my-2"><h1 class="font-bold mt-2 mx-0 mb-1">🔥 Calories per dish:</h1></div>
+    <div class="my-2"><h1 class="font-bold mt-2 mx-0 mb-1">🍽️ Calories per day recommended: (using person characteristics)</h1></div>
+`;
+
+    console.log(prompt)
 
   return prompt;
 }
 
-// [b]🥗 Description/b]
-//   [b]✅ Ingredients/b]
-//   [b]📖 How to make it/b]
-//   [b]🔥 Dish calories/b]
-
-// The format for each of the points should be as follows:
-
-//   The <h1> tag is used to indicate the title of the point, and the description of the point is written below it.
-
-//   <h1>💵 Title of the point</h1>
-//   Description of the point
-
-// At a minimum, the answer must have the following items:
-
-// 💡 Dish name
-// /n
-// 🥗 Description: (short)
-// /n
-// ✅ Ingredients: (with quantities for this dish)
-// /n
-// 📖 How to make it
-// /n
-// 🔥 Dish calories
-// /n
-
-// The format for each item should be as follows:
-
-// The bb tag is used to indicate the title of the item.
-
-// [b]💡 Dish name[/b]
-
-// Calculate the calories that this person must to eat per day using the Basal Metabolic Rate and the Harris-benedict method.
-// The recommendation of these three dishes must be made with the calories that this person should consume in a day according to the calculation method used (basal metabolic rate and Harris-Benedict method).
-
-
-
-// Give me a complete detail of the dish, for one person, also a list summary of ingredients and their quantity specifying weight and units in the same line, also step to step to make it and Nutrition Facts per dish.
-// At the final of completion, Calculate BMR (using age, gender, weight, height) multiply your BMR by the activity factor the Harris-Benedict formula (using activity level and target) following the same characteristics, and give the information at final of complition. 
+{/* <div class="my-2"><h1 class="font-bold mt-2 mx-0 mb-1">🍽️ Calories per day recommended: (BMR multiply by the Harris-Benedict for these strict characteristics: Height: ${height}cm, Weight: ${weight}kg, Gender: ${selectedOptions[1].options}, Age: ${selectedOptions[0].options}, Activity:${selectedOptions[2].options} )</h1></div> */}
