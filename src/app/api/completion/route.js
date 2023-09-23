@@ -38,16 +38,15 @@ export async function POST(req) {
 function generatePrompt(language, selectedOptions, height, weight) {
   let prompt = `Generate 3 differents healthy food recipe ideas (breakfast, lunch and dinner) with the following strict characteristics: Height: ${height}cm \n Weight: ${weight}kg \n ${selectedOptions.map(
     (option) => ` ${option.name}: ${option.options}`
-  )}, and Calories per day recommended for these characteristics using BMR multiply by the Harris-Benedict factor activity.
+  )}
 
-  Return the answer in ${language} (titles and text) and must be in HTML format with css inline like the following example.
+  Return the answer in ${language}and must be in HTML format with css inline like the following example.
 
-    <div class="my-2"><h1 class="font-bold mt-3 mx-0 mb-1">💡 Dish name: </h1></div>
-    <div class="my-2"><h1 class="font-bold mt-2 mx-0 mb-1">🥗 Description: (short description)</h1></div>
+    <div class="my-2"><h1 class="font-bold mt-3 mx-0 mb-1">💡 Dish name: </h1></div> (example breakfast: ...)
+    <div class="my-2"><h1 class="font-bold mt-2 mx-0 mb-1">🥗 Description:</h1></div>(short description)
     <div class="my-2"><h1 class="font-bold mt-2 mx-0 mb-1">✅ Ingredients:</h1><ul class="m-0"></ul></div> (show in a list with quantity and weight)
-    <div class="my-2"><h1 class="font-bold mt-2 mx-0 mb-1">📖 How to make it: (in list format)</h1></div>
+    <div class="my-2"><h1 class="font-bold mt-2 mx-0 mb-1">📖 How to make it:</h1></div> (show in a list)
     <div class="my-2"><h1 class="font-bold mt-2 mx-0 mb-1">🔥 Calories per dish:</h1></div>
-    <div class="my-2"><h1 class="font-bold mt-2 mx-0 mb-1">🍽️ Calories per day recommended: (using person characteristics)</h1></div>
 `;
 
     //console.log(prompt)
