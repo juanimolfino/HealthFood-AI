@@ -10,7 +10,7 @@ export const runtime = "edge";
 
 export async function POST(req) {
   const { prompt } = await req.json();
-  console.log("soy el propmt", prompt);
+ // console.log("soy el propmt", prompt);
 
   const { language, height, weight, selectedOptions } = prompt;
 
@@ -50,7 +50,7 @@ function generatePrompt(language, selectedOptions, height, weight) {
     <div class="my-2"><h1 class="font-bold mt-2 mx-0 mb-1">🍽️ Calories per day recommended: (using person characteristics)</h1></div>
 `;
 
-    console.log(prompt)
+    //console.log(prompt)
 
   return prompt;
 }
